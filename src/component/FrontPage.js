@@ -40,7 +40,25 @@ const ResponsiveCenteredImageDescription = () => {
             <Row className="mt-auto">
                 <Col className="text-center py-3">
                     <a href="https://www.linkedin.com/company/102738501/" className="text-dark mx-2">
-                        <FaLinkedinIn size={24} />
+                       Linkedin <FaLinkedinIn size={14} />
+                    </a>
+                    <a href="https://huggingface.co/pokkoa" className="text-dark mx-2">
+                        🤗 Hugging Face
+                    </a>
+                    <a href="https://solscan.io/token/8uM6vA6ajxxgdqUYNM5xYJtfbL1XmDgU5YDvxZg5LL36" className="text-dark mx-2">
+                        Pokkoa Coin
+                    </a>
+                    <a href="https://opensea.io/assets/matic/0xca8a287748c3af7a23459ac16468ae93dc251ebb/1" className="text-dark mx-2">
+                        NFTs
+                    </a>
+                    <a href="https://character.ai/character/QpMOQWQi" className="text-dark mx-2">
+                        Character.ai
+                    </a>
+                    <a href="https://pokkoa.gumroad.com" className="text-dark mx-2">
+                        Gumroad
+                    </a>
+                    <a href="mailto:contact@pokkoa.cc" className="text-dark mx-2">
+                        Contact Us
                     </a>
                 </Col>
             </Row>

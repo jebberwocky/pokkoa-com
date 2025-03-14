@@ -25,3 +25,4 @@ yarn-error.log*
 # wrangler files
 .wrangler
 .dev.vars
+.idea
