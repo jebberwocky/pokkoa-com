@@ -1,9 +1,9 @@
 import {Col, Container, Row, Image, Nav} from "react-bootstrap";
-import {FaLinkedinIn} from "react-icons/fa";
+import {FaLinkedinIn, FaFacebookF, FaTelegramPlane} from "react-icons/fa";
 
 const ResponsiveCenteredImageDescription = () => {
     return (
-        <Container fluid className="d-flex flex-column min-vh-100">
+        <Container fluid className="d-flex flex-column min-vh-100 ">
             <Row className="mb-3">
                 <Col>
                     <Nav className="justify-content-center mt-3">
@@ -39,27 +39,35 @@ const ResponsiveCenteredImageDescription = () => {
             </Row>
             <Row className="mt-auto">
                 <Col className="text-center py-3">
-                    <a href="https://www.linkedin.com/company/102738501/" className="text-dark mx-2">
-                       Linkedin <FaLinkedinIn size={14} />
+                    <div className="footer-links d-flex justify-content-center flex-wrap">
+                    <a href="https://www.linkedin.com/company/102738501/" className="text-dark mx-2 mb-2 d-flex align-items-center">
+                        <span className="me-1">LinkedIn</span> <FaLinkedinIn size={14} />
                     </a>
-                    <a href="https://huggingface.co/pokkoa" className="text-dark mx-2">
-                        🤗 Hugging Face
+                    <a href="https://huggingface.co/pokkoa" className="text-dark mx-2 mb-2 d-flex align-items-center">
+                        <span className="me-1">🤗 Hugging Face</span>
                     </a>
-                    <a href="https://solscan.io/token/8uM6vA6ajxxgdqUYNM5xYJtfbL1XmDgU5YDvxZg5LL36" className="text-dark mx-2">
+                    <a href="https://www.facebook.com/ai.pokkoa" className="text-dark mx-2 mb-2 d-flex align-items-center">
+                        <span className="me-1">Facebook</span> <FaFacebookF size={14} />
+                    </a>
+                    <a href="https://t.me/pokkoa_bot" className="text-dark mx-2 mb-2 d-flex align-items-center">
+                        <span className="me-1">Telegram</span> <FaTelegramPlane size={14} />
+                    </a>
+                    <a href="https://solscan.io/token/8uM6vA6ajxxgdqUYNM5xYJtfbL1XmDgU5YDvxZg5LL36" className="text-dark mx-2 mb-2">
                         Pokkoa Coin
                     </a>
-                    <a href="https://opensea.io/assets/matic/0xca8a287748c3af7a23459ac16468ae93dc251ebb/1" className="text-dark mx-2">
+                    <a href="https://opensea.io/assets/matic/0xca8a287748c3af7a23459ac16468ae93dc251ebb/1" className="text-dark mx-2 mb-2">
                         NFTs
                     </a>
-                    <a href="https://character.ai/character/QpMOQWQi" className="text-dark mx-2">
+                    <a href="https://character.ai/character/QpMOQWQi" className="text-dark mx-2 mb-2">
                         Character.ai
                     </a>
-                    <a href="https://pokkoa.gumroad.com" className="text-dark mx-2">
+                    <a href="https://pokkoa.gumroad.com" className="text-dark mx-2 mb-2">
                         Gumroad
                     </a>
-                    <a href="mailto:contact@pokkoa.cc" className="text-dark mx-2">
+                    <a href="mailto:contact@pokkoa.cc" className="text-dark mx-2 mb-2">
                         Contact Us
                     </a>
+                    </div>
                 </Col>
             </Row>
         </Container>
