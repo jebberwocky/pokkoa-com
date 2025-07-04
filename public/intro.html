@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokkoa - 智慧驱动的AI情绪陪伴生态</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .deck-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            margin: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide.prev {
+            transform: translateX(-100%);
+        }
+
+        .slide h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-align: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .slide h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+
+        .slide p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #555;
+        }
+
+        .mission-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .formula-box {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            width: 100%;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .market-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .market-table th, .market-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .market-table th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        .market-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+            width: 100%;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0;
+            width: 100%;
+        }
+
+        .tech-step {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .tech-step:not(:last-child)::after {
+            content: '↓';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        .revenue-pie {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 2rem 0;
+            width: 100%;
+        }
+
+        .revenue-item {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+            flex: 1;
+            margin: 0 1rem;
+        }
+
+        .revenue-percent {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-indicator {
+            position: fixed;
+            bottom: 6rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 1000;
+        }
+
+        .indicator-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            background: #667eea;
+            transform: scale(1.2);
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+            width: 100%;
+        }
+
+        .feature-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            text-align: left;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                margin: 10px;
+                padding: 1rem;
+            }
+            
+            .slide h1 {
+                font-size: 2rem;
+            }
+            
+            .slide h2 {
+                font-size: 1.8rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="deck-container">
+        <!-- Slide 1: 封面 -->
+        <div class="slide active">
+            <h1>Pokkoa</h1>
+            <div class="mission-box">
+                智慧驱动的AI情绪陪伴生态
+            </div>
+            <p style="font-size: 1.3rem; color: #667eea; font-weight: 600;">当生活让你疲惫，让古老智慧为你指路</p>
+            <div class="formula-box">
+                AI + 文化心理游戏 + 情绪即时舒缓 = Pokkoa
+            </div>
+        </div>
+
+        <!-- Slide 2: 市场表现 -->
+        <div class="slide">
+            <h2>全球市场表现</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">40,286+</div>
+                    <div class="stat-label">总访问量</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">13+</div>
+                    <div class="stat-label">覆盖国家</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">🇸🇬</div>
+                    <div class="stat-label">核心市场：新加坡</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">🌏</div>
+                    <div class="stat-label">东南亚优势</div>
+                </div>
+            </div>
+            <p style="color: #667eea; font-weight: 600; font-size: 1.2rem;">东南亚地区活跃度突出，新加坡成为最活跃用户群体</p>
+        </div>
+
+        <!-- Slide 3: 用户分布 -->
+        <div class="slide">
+            <h2>核心用户分布</h2>
+            <table class="market-table">
+                <thead>
+                    <tr>
+                        <th>国家/地区</th>
+                        <th>访问量</th>
+                        <th>市场洞察</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🇸🇬 新加坡</td>
+                        <td>11,367</td>
+                        <td>最活跃用户群体，东南亚核心市场</td>
+                    </tr>
+                    <tr>
+                        <td>🇨🇳 中国大陆</td>
+                        <td>9,810</td>
+                        <td>核心本土市场，增长潜力巨大</td>
+                    </tr>
+                    <tr>
+                        <td>🇯🇵 日本</td>
+                        <td>4,708</td>
+                        <td>文化认同度高，精准用户群</td>
+                    </tr>
+                    <tr>
+                        <td>🇹🇼 台湾</td>
+                        <td>3,087</td>
+                        <td>传统文化接受度强</td>
+                    </tr>
+                    <tr>
+                        <td>🇺🇸 美国</td>
+                        <td>2,939</td>
+                        <td>北美市场突破口</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 4: 核心方法论 -->
+        <div class="slide">
+            <h2>Pokkoa方法论</h2>
+            <div class="mission-box">
+                科学的温暖，有效的陪伴
+            </div>
+            <div class="tech-flow">
+                <div class="tech-step">识别情绪</div>
+                <div class="tech-step">提供安心</div>
+                <div class="tech-step">激发力量</div>
+                <div class="tech-step">指引行动</div>
+            </div>
+            <div class="formula-box">
+                象征性沟通 + AI个性化推荐 = 降低心理防御
+            </div>
+        </div>
+
+        <!-- Slide 5: 技术架构 -->
+        <div class="slide">
+            <h2>核心技术架构</h2>
+            <h3>Pokkoa-7B Foundation Model</h3>
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-title">Transformer架构</div>
+                    <div class="feature-desc">GPT-4级别的语言理解能力</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">情感理解模块</div>
+                    <div class="feature-desc">BERT-based情感分类与强度回归</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">文化知识融合</div>
+                    <div class="feature-desc">Knowledge Graph + 符号推理</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">强化学习优化</div>
+                    <div class="feature-desc">基于用户反馈的持续学习</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: 产品生态 -->
+        <div class="slide">
+            <h2>产品生态矩阵</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-icon">🎭</div>
+                    <h3>抽签算卦系统</h3>
+                    <p>象征性沟通的核心载体，5000+经典签文，AI现代化解读</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">📅</div>
+                    <h3>开运日历</h3>
+                    <p>日常情绪安抚的温柔守护，传统历法+心理学提醒</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon">🌟</div>
+                    <h3>五运六气系统</h3>
+                    <p>专业传统文化工具，深度体质分析+养生建议</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: IP生态 -->
+        <div class="slide">
+            <h2>IP产品生态</h2>
+            <div class="mission-box">
+                Pokkoa神兽：情绪的守护星
+            </div>
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-title">🐾 情绪守护者</div>
+                    <div class="feature-desc">每只神兽对应特定情绪状态</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">🎨 文创生态</div>
+                    <div class="feature-desc">虚拟商品+实体周边+定制服务</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">🌏 全球布局</div>
+                    <div class="feature-desc">国内外多平台销售渠道</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">💝 陪伴价值</div>
+                    <div class="feature-desc">不评判、不打扰的温柔回应</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: 商业模式 -->
+        <div class="slide">
+            <h2>商业模式架构</h2>
+            <div class="revenue-pie">
+                <div class="revenue-item">
+                    <div class="revenue-percent">40%</div>
+                    <div class="stat-label">SaaS订阅服务</div>
+                </div>
+                <div class="revenue-item">
+                    <div class="revenue-percent">35%</div>
+                    <div class="stat-label">IP商品销售</div>
+                </div>
+                <div class="revenue-item">
+                    <div class="revenue-percent">25%</div>
+                    <div class="stat-label">平台佣金</div>
+                </div>
+            </div>
+            <div class="formula-box">
+                用户价值循环：进入 → 识别 → 推荐 → 改善 → 购买 → 留存 → 优化
+            </div>
+        </div>
+
+        <!-- Slide 9: 合规安全 -->
+        <div class="slide">
+            <h2>合规安全架构</h2>
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-title">🔒 数据安全</div>
+                    <div class="feature-desc">端到端加密，隐私优先原则</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">⚖️ 业务合规</div>
+                    <div class="feature-desc">情绪陪伴定位，避开医疗资质</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">🌍 全球标准</div>
+                    <div class="feature-desc">符合GDPR、CCPA等国际标准</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">🛡️ 内容审核</div>
+                    <div class="feature-desc">AI+人工双重安全机制</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: 品牌理念 -->
+        <div class="slide">
+            <h2>品牌理念</h2>
+            <div class="mission-box" style="font-size: 2rem; margin: 3rem 0;">
+                "生活虽累，智慧常在"
+            </div>
+            <div class="tech-flow">
+                <div class="tech-step">用科技传承古老文化</div>
+                <div class="tech-step">用陪伴温暖现代心灵</div>
+                <div class="tech-step">用数据驱动情绪健康</div>
+            </div>
+        </div>
+
+        <!-- Slide 11: 未来展望 -->
+        <div class="slide">
+            <h2>未来展望</h2>
+            <div class="mission-box">
+                构建以东南亚为核心、辐射全球的情绪陪伴生态
+            </div>
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-title">🚀 技术升级</div>
+                    <div class="feature-desc">持续优化AI技术，提升推荐精准度</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">🌏 市场拓展</div>
+                    <div class="feature-desc">深耕东南亚，拓展全球市场</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">💝 文化深化</div>
+                    <div class="feature-desc">传统智慧与现代心理学深度融合</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-title">🤝 生态协同</div>
+                    <div class="feature-desc">构建完整的情绪健康服务生态</div>
+                </div>
+            </div>
+            <p style="color: #667eea; font-weight: 600; font-size: 1.3rem; margin-top: 2rem;">
+                为全球用户提供更有温度的智慧陪伴服务
+            </p>
+        </div>
+    </div>
+
+    <div class="slide-indicator">
+        <div class="indicator-dot active" data-slide="0"></div>
+        <div class="indicator-dot" data-slide="1"></div>
+        <div class="indicator-dot" data-slide="2"></div>
+        <div class="indicator-dot" data-slide="3"></div>
+        <div class="indicator-dot" data-slide="4"></div>
+        <div class="indicator-dot" data-slide="5"></div>
+        <div class="indicator-dot" data-slide="6"></div>
+        <div class="indicator-dot" data-slide="7"></div>
+        <div class="indicator-dot" data-slide="8"></div>
+        <div class="indicator-dot" data-slide="9"></div>
+        <div class="indicator-dot" data-slide="10"></div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">上一页</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">下一页</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const indicators = document.querySelectorAll('.indicator-dot');
+
+        function showSlide(n) {
+            slides.forEach(slide => {
+                slide.classList.remove('active', 'prev');
+            });
+            
+            indicators.forEach(indicator => {
+                indicator.classList.remove('active');
+            });
+
+            if (n >= totalSlides) currentSlide = 0;
+            if (n < 0) currentSlide = totalSlides - 1;
+
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+
+            // Add prev class to previous slides
+            for (let i = 0; i < currentSlide; i++) {
+                slides[i].classList.add('prev');
+            }
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+
+        // Indicator click handlers
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Auto-advance slides (optional)
+        let autoAdvance = false;
+        if (autoAdvance) {
+            setInterval(() => {
+                if (currentSlide < totalSlides - 1) {
+                    changeSlide(1);
+                } else {
+                    currentSlide = 0;
+                    showSlide(currentSlide);
+                }
+            }, 10000);
+        }
+
+        // Initialize
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
