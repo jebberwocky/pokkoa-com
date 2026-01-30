@@ -32,8 +32,10 @@ const ResponsiveCenteredImageDescription = () => {
                         Life is tiring, but the future "will be better".
                     </p>
                     <p className="lead px-3">
-                        Life is tiring, but the future "will be better".
-                        Pokkoa Project: Exploring AI's Potential as a Divinatory Tool for Enhancing Mental Well-being. Curious about the potential sparks that could emerge from the collision of AI and I Ching, and their feasibility in psychological consulting. How can we leverage the combination of AI and I Ching to provide more effective solutions for psychological consulting?
+                        Building Pokkoa: Pioneering the Future of AI-Driven Self-Reflection
+                        Pokkoa bridges the gap between historical symbolic wisdom and modern cognitive technology to help individuals navigate their emotional landscapes with greater clarity. Our mission is to provide a universal, culturally inclusive framework for meaning-making—empowering users to find personal direction through sophisticated, AI-driven insights.
+
+                        Beyond a digital tool, Pokkoa is evolving into a multidisciplinary creative ecosystem. By integrating original art, narrative storytelling, and digital collectibles, we are building a "creative universe" for the emotionally curious. We believe that by merging mental wellness with contemporary culture, we can make the journey of self-discovery both deeply insightful and visually engaging.
                     </p>
                 </Col>
             </Row>
