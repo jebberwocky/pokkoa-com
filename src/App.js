@@ -1,5 +1,5 @@
 import './App.css';
-import { Container, Image, Navbar } from "react-bootstrap";
+import {Container, Image, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import ResponsiveCenteredImageDescription from "./component/FrontPage";
 import PostPage from "./component/PostPage";
@@ -16,8 +16,20 @@ function App() {
                       </Navbar.Brand>
                       <Navbar.Toggle aria-controls="basic-navbar-nav" />
                       <Navbar.Collapse id="basic-navbar-nav">
-                          {/* Add navigation links here if needed */}
+                          <Nav className="ms-auto">
+                              <NavDropdown title="Outlook" id="outlook-dropdown">
+                                  <NavDropdown.Item as={Link} to="/post/outlook/2026">
+                                      2026
+                                  </NavDropdown.Item>
+                              </NavDropdown>
+                              <NavDropdown title="Report" id="outlook-dropdown">
+                                  <NavDropdown.Item as={Link} to="/post/outlook/2026">
+                                      🔮 Big Data Reveals: What Are We Really Asking?
+                                  </NavDropdown.Item>
+                              </NavDropdown>
+                          </Nav>
                       </Navbar.Collapse>
+
                   </Container>
               </Navbar>
 

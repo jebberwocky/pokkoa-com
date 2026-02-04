@@ -30,4 +30,17 @@
         <priority>0.8</priority>
     </url>
 
+    <!-- Blog posts -->
+    <url>
+        <loc>https://pokkoa.com/post/outlook/2026</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://pokkoa.com/post/report/data</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
 </urlset>

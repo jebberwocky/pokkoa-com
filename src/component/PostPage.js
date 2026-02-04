@@ -13,21 +13,45 @@ function PostPage() {
         // Try to load the post file
         fetch(`/posts/${category}/${year}.md`)
             .then(res => {
-                if (!res.ok) throw new Error('Post not found');
+                if (!res.ok) {
+                    throw new Error('Post not found');
+                }
                 return res.text();
             })
             .then(content => {
+                // Check if content looks like HTML (which means file doesn't exist)
+                if (content.trim().startsWith('<!DOCTYPE') || content.trim().startsWith('<html')) {
+                    throw new Error('Post not found');
+                }
                 setPost({ content });
                 setLoading(false);
             })
-            .catch(() => {
+            .catch((err) => {
+                console.error('Error loading post:', err);
                 setError(true);
                 setLoading(false);
             });
     }, [category, year]);
 
-    if (loading) return <Container className="my-5">Loading...</Container>;
-    if (error) return <Navigate to="/" replace />;
+    if (loading) {
+        return (
+            <Container className="my-5" style={{ maxWidth: '800px', textAlign: 'center' }}>
+                <p>Loading...</p>
+            </Container>
+        );
+    }
+
+    if (error) {
+        return (
+            <Container className="my-5" style={{ maxWidth: '800px', textAlign: 'center' }}>
+                <h2>Post Not Found</h2>
+                <p>The post you're looking for doesn't exist.</p>
+                <p>
+                    <a href="/">← Back to Home</a>
+                </p>
+            </Container>
+        );
+    }
 
     return (
         <Container className="my-5" style={{ maxWidth: '800px' }}>
